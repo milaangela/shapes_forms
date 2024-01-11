@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML5 Canvas Shapes</title>
+    <style>
+        canvas {
+            border: 1px solid #000;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="400" height="200"></canvas>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var canvas = document.getElementById("myCanvas");
+            var context = canvas.getContext("2d");
+
+            // Draw 12 different shapes
+            drawRectangle(context, 10, 10, 50, 30, "red");
+            drawCircle(context, 100, 30, 20, "green");
+            drawTriangle(context, 150, 10, 200, 10, 175, 50, "blue");
+            drawLine(context, 230, 10, 280, 50, "purple");
+            drawEllipse(context, 330, 30, 40, 20, "orange");
+
+            drawStar(context, 30, 90, 20, 5, 0.5, "cyan"); // 5-pointed star
+            drawHexagon(context, 100, 90, 30, "pink");
+            drawPentagon(context, 190, 100, 25, "yellow");
+            drawArc(context, 270, 80, 30, 0, Math.PI, "brown"); // Half circle
+            drawRoundedRectangle(context, 320, 80, 50, 30, 10, "lightblue");
+
+            drawDiamond(context, 30, 160, 40, "lightgreen"); // Diamond
+            drawTrapezoid(context, 110, 150, 60, 30, "lightcoral"); // Trapezoid
+            drawOctagon(context, 210, 160, 25, "lightgray"); // Octagon
+            drawCross(context, 280, 160, 40, 10, "darkred"); // Cross
+            drawHeart(context, 350, 160, 30, "magenta"); // Heart
+
+            // Draw more shapes as needed
+
+            // Function to draw a rectangle
+            function drawRectangle(ctx, x, y, width, height, color) {
+                ctx.beginPath();
+                ctx.rect(x, y, width, height);
+                ctx.fillStyle = color;
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            // Function to draw a circle
+            function drawCircle(ctx, x, y, radius, color) {
+                ctx.beginPath();
+                ctx.arc(x, y, radius, 0, 2 * Math.PI);
+                ctx.fillStyle = color;
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            // Function to draw a triangle
+            function drawTriangle(ctx, x1, y1, x2, y2, x3, y3, color) {
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.lineTo(x3, y3);
+                ctx.closePath();
+                ctx.fillStyle = color;
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            // Function to draw a line
+            function drawLine(ctx, x1, y1, x2, y2, color) {
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.strokeStyle = color;
+                ctx.stroke();
+            }
+
+            // Function to draw an ellipse
+            function drawEllipse(ctx, x, y, radiusX, radiusY, color) {
+                ctx.beginPath();
+                ctx.ellipse(x, y, radiusX, radiusY, 0, 0, 2 * Math.PI);
+                ctx.fillStyle = color;
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            // Function to draw a star
+            function drawStar(ctx, x, y, radius, points, innerRadius, color) {
+                ctx.beginPath();
+                for (let i = 0; i < 2 * Math.PI; i += (2 * Math.PI) / (points * 2)) {
+                    let outerX = x + Math.cos(i) * radius;
+                    let outerY = y + Math.sin(i) * radius;
+                    ctx.lineTo(outerX, outerY);
+
+                    let innerX = x + Math.cos(i + (Math.PI / points)) * innerRadius;
+                    let innerY = y + Math.sin(i + (Math.PI / points)) * innerRadius;
+                    ctx.lineTo(innerX, innerY);
+                }
+                ctx.closePath();
+                ctx.fillStyle = color;
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            // Function to draw a hexagon
+            function drawHexagon(ctx, x, y, sideLength, color) {
+                ctx.beginPath();
+                for (let i = 0; i < 6; i++) {
+                    const angle = (i * 2 * Math.PI) / 6;
+                    const newX = x + sideLength * Math.cos(angle);
+                    const newY = y + sideLength * Math.sin(angle);
+                    ctx.lineTo(newX, newY);
+                }
+                ctx.closePath();
+                ctx.fillStyle = color;
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            // Function to draw a pentagon
+            function drawPentagon(ctx, x, y, sideLength, color) {
+                ctx.beginPath();
+                for (let i = 0; i < 5; i++) {
+                    const angle = (i * 2 * Math.PI) / 5;
+                    const newX = x + sideLength * Math.cos(angle);
+                    const newY = y + sideLength * Math.sin(angle);
+                    ctx.lineTo(newX, newY);
+                }
+                ctx.closePath();
+                ctx.fillStyle = color;
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            // Function to draw an arc
+            function drawArc(ctx, x, y, radius, startAngle, endAngle, color) {
+                ctx.beginPath();
+                ctx.arc(x, y, radius, startAngle, endAngle);
+                ctx.fillStyle = color;
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            // Function to draw a rounded rectangle
+            function drawRoundedRectangle(ctx, x, y, width, height, radius, color) {
+                ctx.beginPath();
+                ctx.moveTo(x + radius, y);
+                ctx.arcTo(x + width, y, x + width, y + height, radius);
+                ctx.arcTo(x + width, y + height, x, y + height, radius);
+                ctx.arcTo(x, y + height, x, y, radius);
+                ctx.arcTo(x, y, x + width, y, radius);
+                ctx.closePath();
+                ctx.fillStyle = color;
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            function drawDiamond(ctx, x, y, sideLength, color) {
+                ctx.beginPath();
+                ctx.moveTo(x, y - sideLength / 2);
+                ctx.lineTo(x + sideLength / 2, y);
+                ctx.lineTo(x, y + sideLength / 2);
+                ctx.lineTo(x - sideLength / 2, y);
+                ctx.closePath();
+                ctx.fillStyle = color;
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            // Function to draw a trapezoid
+            function drawTrapezoid(ctx, x, y, topWidth, height, color) {
+                ctx.beginPath();
+                ctx.moveTo(x - topWidth / 2, y - height / 2);
+                ctx.lineTo(x + topWidth / 2, y - height / 2);
+                ctx.lineTo(x + topWidth / 4, y + height / 2);
+                ctx.lineTo(x - topWidth / 4, y + height / 2);
+                ctx.closePath();
+                ctx.fillStyle = color;
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            // Function to draw an octagon
+            function drawOctagon(ctx, x, y, sideLength, color) {
+                ctx.beginPath();
+                for (let i = 0; i < 8; i++) {
+                    const angle = (i * 2 * Math.PI) / 8;
+                    const newX = x + sideLength * Math.cos(angle);
+                    const newY = y + sideLength * Math.sin(angle);
+                    ctx.lineTo(newX, newY);
+                }
+                ctx.closePath();
+                ctx.fillStyle = color;
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            function drawCross(ctx, x, y, armLength, armWidth, color) {
+                ctx.beginPath();
+                ctx.moveTo(x - armWidth / 2, y - armLength / 2);
+                ctx.lineTo(x + armWidth / 2, y - armLength / 2);
+                ctx.lineTo(x + armWidth / 2, y - armWidth / 2);
+                ctx.lineTo(x + armLength / 2, y - armWidth / 2);
+                ctx.lineTo(x + armLength / 2, y + armWidth / 2);
+                ctx.lineTo(x + armWidth / 2, y + armWidth / 2);
+                ctx.lineTo(x + armWidth / 2, y + armLength / 2);
+                ctx.lineTo(x - armWidth / 2, y + armLength / 2);
+                ctx.lineTo(x - armWidth / 2, y + armWidth / 2);
+                ctx.lineTo(x - armLength / 2, y + armWidth / 2);
+                ctx.lineTo(x - armLength / 2, y - armWidth / 2);
+                ctx.lineTo(x - armWidth / 2, y - armWidth / 2);
+                ctx.closePath();
+                ctx.fillStyle = color;
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            // Function to draw a heart
+            function drawHeart(ctx, x, y, size, color) {
+                ctx.beginPath();
+                ctx.moveTo(x, y - size / 2);
+                ctx.quadraticCurveTo(x + size / 2, y - size / 2, x + size / 2, y);
+                ctx.quadraticCurveTo(x + size / 2, y + size / 2, x, y + size / 2);
+                ctx.quadraticCurveTo(x - size / 2, y + size / 2, x - size / 2, y);
+                ctx.quadraticCurveTo(x - size / 2, y - size / 2, x, y - size / 2);
+                ctx.closePath();
+                ctx.fillStyle = color;
+                ctx.fill();
+                ctx.stroke();
+            }
+        });
+    </script>
+</body>
+</html>
